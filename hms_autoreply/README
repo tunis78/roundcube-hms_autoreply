@@ -1,0 +1,65 @@
+ -----------------------------------------------------------------------
+ hMailServer Autoreply Plugin for Roundcube
+ -----------------------------------------------------------------------
+ Plugin that adds a possibility to change users auto-reply using two
+ methods (drivers) via Settings/Autoreply tab.
+ -----------------------------------------------------------------------
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program. If not, see http://www.gnu.org/licenses/.
+
+ @version @package_version@
+ @author Andreas Tunberg <andreas@tunberg.com>
+ -----------------------------------------------------------------------
+
+ 1. Requirements
+ 2. Configuration
+ 3. Drivers
+ 3.1.  hMailServer (hmail)
+ 3.2.  hMailServer Remote (hmail_remote)
+
+
+ 1. Required
+ -----------
+
+ Required plugins:
+   - jqueryui
+
+ Requires PHP COM (Windows only)
+
+ 2. Configuration
+ ----------------
+
+ Copy config.inc.php.dist to config.inc.php and set the options as described
+ within the file.
+
+
+ 2. Drivers
+ ----------
+
+ hMailServer Auto-reply plugin supports two change mechanisms which are handled
+ by included drivers. Just pass driver name in 'hms_autoreply_driver' option.
+
+
+ 2.1. hMailServer (hmail)
+ ------------------------
+
+ Requires PHP COM (Windows only). For access to hMail server on remote host you'll
+ need to define 'hms_autoreply_remote_dcom' and 'hms_autoreply_remote_server'.
+ See config.inc.php.dist file for more info.
+
+ 2.2. hMailServer Remote (hmail_remote)
+ --------------------------------------
+
+ Requires PHP COM (Windows only) on remote host.
+ See config.inc.php.dist file for more info.
+

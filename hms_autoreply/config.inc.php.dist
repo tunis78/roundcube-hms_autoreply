@@ -1,0 +1,30 @@
+<?php
+
+// hMailServer Autoreply Plugin options
+// -----------------------
+// A driver to use for autoreply change. Default: "hmail".
+// See README file for list of supported driver names.
+$config['hms_autoreply_driver'] = 'hmail';
+
+// hmail Driver options
+// -----------------------
+// Remote hMailServer configuration
+// true:  hMailServer is on a remote box (php.ini: com.allow_dcom = true)
+// false: hMailServer is on same box as PHP
+$config['hms_autoreply_remote_dcom'] = false;
+// Windows credentials
+$config['hms_autoreply_remote_server'] = array(
+    'Server'   => 'localhost',      // hostname or ip address
+    'Username' => 'administrator',  // windows username
+    'Password' => 'password'        // windows user password
+);
+
+// hmail_remote Driver options
+// -----------------------
+// Remote configuration of hMailServer
+// Copy hm_rcautoreply.php to hMailServer.
+// Change $remote_ip in hm_rcautoreply.php to Roundcube server ip-address.
+// Makesure that dcom working.
+// Url to hm_rcautoreply.php.
+$config['hms_autoreply_remote_url'] = 'http://hmailserver/PHPWebAdmin/hm_rcautoreply.php';
+
