@@ -51,7 +51,7 @@ class rcube_hmail_remote_autoreply
             $domain = $temparr[1];
         }
         else {
-            $domain = $rcmail->config->get('username_domain',false);
+            $domain = $rcmail->config->get('username_domain', false);
             if (!$domain) {
                 rcube::write_log('errors','Plugin hms_autoreply (hmail remote driver): $config[\'username_domain\'] is not defined.');
                 return HMS_ERROR;
@@ -66,7 +66,7 @@ class rcube_hmail_remote_autoreply
         $dataToSend['email'] = $username;
         $dataToSend['password'] = $pwd;
 
-        $result = $this->remote_access($hmailRemoteUrl,$dataToSend);
+        $result = $this->remote_access($hmailRemoteUrl, $dataToSend);
 
         if(!is_array($result)) {
             rcube::write_log('errors', 'Plugin hms_autoreply (hmail remote driver): ' . $result);
@@ -83,15 +83,15 @@ class rcube_hmail_remote_autoreply
         return HMS_SUCCESS;
     }
 
-    private function remote_access($url,$data)
+    private function remote_access($url, $data)
     {
         $data_string = http_build_query($data);
 
         $ch = curl_init($url);
-        curl_setopt($ch,CURLOPT_POST,1);
-        curl_setopt($ch,CURLOPT_POSTFIELDS,$data_string); 
-        curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-        curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,false); 
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string); 
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); 
         $response = curl_exec($ch);
 
         if (!curl_errno($ch)) {

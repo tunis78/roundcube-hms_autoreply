@@ -35,35 +35,35 @@ if($_SERVER['REMOTE_ADDR'] !== $rc_remote_ip)
 define('HMS_ERROR', 1);
 
 if (empty($_POST['action']) || empty($_POST['email']) || empty($_POST['password']))
-    sendResult('Required fields can not be empty.',HMS_ERROR);
+    sendResult('Required fields can not be empty.', HMS_ERROR);
 
 $action = $_POST['action'];
 $email = $_POST['email'];
 $password = $_POST['password'];
 
 if ($action == 'load')
-    loadAutoreply($email,$password);
+    loadAutoreply($email, $password);
 elseif ($action == 'save') {
     $data=array(
-        'enabled'     => isset($_POST['enabled'])?$_POST['enabled']:null,
-        'subject'     => isset($_POST['subject'])?$_POST['subject']:'',
-        'message'     => isset($_POST['message'])?$_POST['message']:'',
-        'expires'     => isset($_POST['expires'])?$_POST['expires']:null,
-        'expiresdate' => isset($_POST['expiresdate'])?$_POST['expiresdate']:''
+        'enabled'     => isset($_POST['enabled']) ? 1 : 0,
+        'subject'     => isset($_POST['subject']) ? $_POST['subject'] : '',
+        'message'     => isset($_POST['message']) ? $_POST['message'] : '',
+        'expires'     => isset($_POST['expires']) ? 1 : 0,
+        'expiresdate' => isset($_POST['expiresdate']) ? $_POST['expiresdate'] : ''
     );
-    saveAutoreply($email,$password,$data);
+    saveAutoreply($email, $password, $data);
 }
-sendResult('Action unknown.',HMS_ERROR);
+sendResult('Action unknown', HMS_ERROR);
 
 
 
 function sendResult($message, $error = 0)
 {
-    $out=array('error'=>$error,'text'=>$message);
+    $out=array('error' => $error, 'text' => $message);
     exit(serialize($out));
 }
 
-function loadAutoreply($email,$password)
+function loadAutoreply($email, $password)
 {
     try {
         $obApp = new COM("hMailServer.Application", NULL, CP_UTF8);
@@ -93,7 +93,7 @@ function loadAutoreply($email,$password)
     }
 }
 
-function saveAutoreply($email,$password,$data)
+function saveAutoreply($email, $password, $data)
 {
     try {
         $obApp = new COM("hMailServer.Application", NULL, CP_UTF8);
