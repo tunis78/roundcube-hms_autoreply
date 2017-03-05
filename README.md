@@ -34,13 +34,17 @@ See config.inc.php.dist file for more info.
 
 Changelog
 ---------
+Version 1.2 (2017-03-05)
+- Rearrange code
+- Fixed some typos
+
 Version 1.1 (2017-03-03)
 - Adapted to roundcube plugin repository
 
 Version 1.0 (2017-02-24)
-- first release
+- First release
 
-Licence
+License
 -------
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

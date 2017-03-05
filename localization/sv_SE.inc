@@ -9,7 +9,9 @@ $labels['message'] = 'Meddelande';
 $labels['expires'] = 'Förfaller';
 
 $messages['successfullyupdated'] = 'Autosvaret har uppdaterats.';
-$messages['internalerror'] = 'Kunde inte uppdatera autosvar.';
-$messages['connecterror'] = $messages['internalerror'] . ' Uppkopplingsfel.';
-$messages['loadinternalerror'] = 'Kunde inte ladda autosvar.';
+$messages['internalerror'] = 'Fel uppstod i vald åtgärd.';
+//$messages['connecterror'] = $messages['internalerror'] . ' Uppkopplingsfel.';
+$messages['loaderror'] = 'Kunde inte ladda autosvar.';
 $messages['loadconnecterror'] = $messages['loadinternalerror'] . ' Uppkopplingsfel.';
+$messages['updateerror'] = 'Kunde inte uppdatera autosvar.';
+$messages['updateconnecterror'] = $messages['updateerror'] . ' Connection error.';

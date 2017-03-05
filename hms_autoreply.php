@@ -3,7 +3,7 @@
 /**
  * hMailServer Autoreply Plugin for Roundcube
  *
- * @version 1.1
+ * @version 1.2
  * @author Andreas Tunberg <andreas@tunberg.com>
  *
  * Copyright (C) 2017, Andreas Tunberg
@@ -43,8 +43,8 @@ class hms_autoreply extends rcube_plugin
     public $task    = "settings";
     public $noframe = true;
     public $noajax  = true;
-
-    private $driver = '';
+    private $rc;
+    private $driver;
 
     function init()
     {
@@ -56,13 +56,12 @@ class hms_autoreply extends rcube_plugin
 
         $this->add_hook('settings_actions', array($this, 'settings_actions'));
 
-        $this->register_action('plugin.autoreply', array($this, 'autoreply_init'));
+        $this->register_action('plugin.autoreply', array($this, 'autoreply'));
         $this->register_action('plugin.autoreply-save', array($this, 'autoreply_save'));
     }
 
     function settings_actions($args)
     {
-        // register as settings action
         $args['actions'][] = array(
             'action' => 'plugin.autoreply',
             'class'  => 'autoreply',
@@ -73,59 +72,63 @@ class hms_autoreply extends rcube_plugin
 
         return $args;
     }
-
+    
     function autoreply_init()
     {
+        $this->rc = rcube::get_instance();
+        $this->load_config();
+        $this->rc->output->set_pagetitle($this->gettext('changeautoreply'));
+    }
+
+    function autoreply()
+    {
+        $this->autoreply_init();
+        
         $this->register_handler('plugin.body', array($this, 'autoreply_form'));
 
-        $rcmail = rcmail::get_instance();
-        $rcmail->output->set_pagetitle($this->gettext('changeautoreply'));
 
-        $rcmail->output->send('plugin');
+        $this->rc->output->send('plugin');
     }
 
     function autoreply_save()
     {
-
-        $rcmail = rcmail::get_instance();
-        $rcmail->output->set_pagetitle($this->gettext('changeautoreply'));
+        $this->autoreply_init();
 
         $dataToSave = array(
-            'enabled' => rcube_utils::get_input_value('_enabled', rcube_utils::INPUT_POST),
-            'subject' => rcube_utils::get_input_value('_subject', rcube_utils::INPUT_POST),
-            'message' => rcube_utils::get_input_value('_message', rcube_utils::INPUT_POST, true),
-            'expires' => rcube_utils::get_input_value('_expires', rcube_utils::INPUT_POST),
+            'action'      => 'autoreply_save',
+            'enabled'     => rcube_utils::get_input_value('_enabled', rcube_utils::INPUT_POST),
+            'subject'     => rcube_utils::get_input_value('_subject', rcube_utils::INPUT_POST),
+            'message'     => rcube_utils::get_input_value('_message', rcube_utils::INPUT_POST, true),
+            'expires'     => rcube_utils::get_input_value('_expires', rcube_utils::INPUT_POST),
             'expiresdate' => rcube_utils::get_input_value('_expiresdate', rcube_utils::INPUT_POST)
         );
 
         if (!($result = $this->_save($dataToSave))) {
-            $rcmail->output->command('display_message', $this->gettext('successfullyupdated'), 'confirmation');
+            $this->rc->output->command('display_message', $this->gettext('successfullyupdated'), 'confirmation');
         }
         else {
-            $rcmail->output->command('display_message', $result, 'error');
+            $this->rc->output->command('display_message', $result, 'error');
         }
 
         $this->register_handler('plugin.body', array($this, 'autoreply_form'));
 
-        $rcmail->overwrite_action('plugin.autoreply');
-        $rcmail->output->send('plugin');
+        $this->rc->overwrite_action('plugin.autoreply');
+        $this->rc->output->send('plugin');
     }
 
     function autoreply_form()
     {
-        $currentData = $this->_load();
-
-        $rcmail = rcmail::get_instance();
+        $currentData = $this->_load(array('action' => 'autoreply_load'));
 
         if (!is_array($currentData)) {
             if ($currentData == HMS_CONNECT_ERROR) {
                 $error = $this->gettext('loadconnecterror');
             }
             else {
-                $error = $this->gettext('loadinternalerror');
+                $error = $this->gettext('loaderror');
             }
 
-            $rcmail->output->command('display_message', $error, 'error');
+            $this->rc->output->command('display_message', $error, 'error');
             return;
         }
 
@@ -146,7 +149,6 @@ class hms_autoreply extends rcube_plugin
                 'type'      => 'text',
                 'name'      => '_subject',
                 'id'        => $field_id,
-                //'size' => 20,
                 'maxlength' => 192
         ));
 
@@ -181,14 +183,14 @@ class hms_autoreply extends rcube_plugin
         $table->add('title', html::label($field_id, rcube::Q($this->gettext('expires'))));
         $table->add(null, $input_expires->show($currentData['expires']) . ' ' . $input_expiresdate->show($currentData['expiresdate']));		
 
-        $submit_button = $rcmail->output->button(array(
+        $submit_button = $this->rc->output->button(array(
                 'command' => 'plugin.autoreply-save',
                 'type'    => 'input',
                 'class'   => 'button mainaction',
                 'label'   => 'save'
         ));
 
-        $form = $rcmail->output->form_tag(array(
+        $form = $this->rc->output->form_tag(array(
             'id'     => 'autoreply-form',
             'name'   => 'autoreply-form',
             'method' => 'post',
@@ -200,25 +202,25 @@ class hms_autoreply extends rcube_plugin
             . html::div(array('class' => 'boxcontent'),
                 $form));
 
-        $rcmail->output->add_gui_object('passform', 'autoreply-form');
+        $this->rc->output->add_gui_object('autoreplyform', 'autoreply-form');
 
         $this->include_script('hms_autoreply.js');
 
         return $out;
     }
 
-    private function _load()
+    private function _load($data)
     {
         if (is_object($this->driver)) {
-            $result = $this->driver->load();
+            $result = $this->driver->load($data);
         }
         elseif (!($result = $this->load_driver())){
-            $result = $this->driver->load();
+            $result = $this->driver->load($data);
         }
         return $result;
     }
 
-    private function _save($data)
+    private function _save($data, $response = false)
     {
         if (is_object($this->driver)) {
             $result = $this->driver->save($data);
@@ -226,16 +228,18 @@ class hms_autoreply extends rcube_plugin
         elseif (!($result = $this->load_driver())){
             $result = $this->driver->save($data);
         }
+        
+        if ($response) return $result;
 
         switch ($result) {
             case HMS_SUCCESS:
                 return;
             case HMS_CONNECT_ERROR:
-                $reason = $this->gettext('connecterror');
+                $reason = $this->gettext('updateconnecterror');
                 break;
             case HMS_ERROR:
             default:
-                $reason = $this->gettext('internalerror');
+                $reason = $this->gettext('updateerror');
         }
 
         return $reason;

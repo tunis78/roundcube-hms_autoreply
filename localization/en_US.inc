@@ -12,7 +12,9 @@ $labels['expires'] = 'Expires';
 
 $messages = array();
 $messages['successfullyupdated'] = 'Autoreply has successfully update.';
-$messages['internalerror'] = 'Could not update autoreply.';
-$messages['connecterror'] = $messages['internalerror'] . ' Connection error.';
-$messages['loadinternalerror'] = 'Could not load autoreply.';
+$messages['internalerror'] = 'Error with selected action.';
+//$messages['connecterror'] = $messages['internalerror'] . ' Connection error.';
+$messages['loaderror'] = 'Could not load autoreply.';
 $messages['loadconnecterror'] = $messages['loadinternalerror'] . ' Connection error.';
+$messages['updateerror'] = 'Could not update autoreply.';
+$messages['updateconnecterror'] = $messages['updateerror'] . ' Connection error.';

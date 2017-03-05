@@ -19,7 +19,7 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
 
     rcmail.register_command('plugin.autoreply-save', function() {
         rcmail.set_busy(true, 'loading');
-        rcmail.gui_objects.passform.submit();
+        rcmail.gui_objects.autoreplyform.submit();
     },true);
 
     $('input:not(:hidden):first').focus();

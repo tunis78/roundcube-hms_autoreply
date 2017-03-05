@@ -3,7 +3,7 @@
 /**
  * hMailserver remote autoreply driver
  *
- * @version 1.0
+ * @version 1.2
  * @author Andreas Tunberg <andreas@tunberg.com>
  *
  * Copyright (C) 2017, Andreas Tunberg
@@ -25,46 +25,45 @@
 class rcube_hmail_remote_autoreply
 {
     
-    public function load()
+    public function load($data)
     {
-        return $this->data_handler('load');
+        return $this->data_handler($data);
     }
 
     public function save($data)
     {
-        return $this->data_handler('save', $data);
+        return $this->data_handler($data);
     }
 
-    private function data_handler($action, $data = array())
+    private function data_handler($data)
     {
         $rcmail = rcmail::get_instance();
 
         $hmailRemoteUrl = $rcmail->config->get('hms_autoreply_remote_url', false);
         if (!$hmailRemoteUrl) {
-            rcube::write_log('errors','Plugin hms_autoreply (hmail remote driver): $config[\'hms_autoreply_remote_url\'] is not defined.');
+            rcube::write_log('errors', 'Plugin hms_autoreply (hmail remote driver): $config[\'hms_autoreply_remote_url\'] is not defined.');
             return HMS_ERROR;
         }
 
         $username = $rcmail->user->data['username'];
-        if (strstr($username,'@')){
+        if (strstr($username, '@')){
             $temparr = explode('@', $username);
             $domain = $temparr[1];
         }
         else {
             $domain = $rcmail->config->get('username_domain', false);
             if (!$domain) {
-                rcube::write_log('errors','Plugin hms_autoreply (hmail remote driver): $config[\'username_domain\'] is not defined.');
+                rcube::write_log('errors', 'Plugin hms_autoreply (hmail remote driver): $config[\'username_domain\'] is not defined.');
                 return HMS_ERROR;
             }
             $username = $username . '@' . $domain;
         }
 
-        $pwd = $rcmail->decrypt($_SESSION['password']);
+        $password = $rcmail->decrypt($_SESSION['password']);
 
         $dataToSend = $data;
-        $dataToSend['action'] = $action;
         $dataToSend['email'] = $username;
-        $dataToSend['password'] = $pwd;
+        $dataToSend['password'] = $password;
 
         $result = $this->remote_access($hmailRemoteUrl, $dataToSend);
 
@@ -77,10 +76,7 @@ class rcube_hmail_remote_autoreply
             return $result['error'];
         }
 
-        if ($action === 'load')
-            return $result['text'];
-
-        return HMS_SUCCESS;
+        return $result['text'];
     }
 
     private function remote_access($url, $data)
