@@ -22,8 +22,6 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
         rcmail.gui_objects.autoreplyform.submit();
     },true);
 
-    $('input:not(:hidden):first').focus();
-
     $('#expiresdate').datepicker({
         dateFormat: "yy-mm-dd",
         constrainInput: true,

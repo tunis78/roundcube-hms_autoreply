@@ -3,7 +3,7 @@
 /**
  * hMailServer Autoreply Plugin for Roundcube
  *
- * @version 1.2
+ * @version 1.3
  * @author Andreas Tunberg <andreas@tunberg.com>
  *
  * Copyright (C) 2017, Andreas Tunberg
@@ -132,7 +132,7 @@ class hms_autoreply extends rcube_plugin
             return;
         }
 
-        $table = new html_table(array('cols' => 2));
+        $table = new html_table(array('cols' => 2, 'class' => 'propform'));
 
         $field_id = 'enabled';
         $input_enabled = new html_checkbox(array (
@@ -159,8 +159,8 @@ class hms_autoreply extends rcube_plugin
         $input_message = new html_textarea(array (
                 'name' => '_message',
                 'id'   => $field_id,
-                'rows' => 5,
-                'cols' => 50
+                'rows' => '6',
+                'cols' => '40'
         ));
 
         $table->add('title', html::label($field_id, rcube::Q($this->gettext('message'))));
@@ -193,14 +193,15 @@ class hms_autoreply extends rcube_plugin
         $form = $this->rc->output->form_tag(array(
             'id'     => 'autoreply-form',
             'name'   => 'autoreply-form',
+            'class'  => 'propform',
             'method' => 'post',
             'action' => './?_task=settings&_action=plugin.autoreply-save',
-        ), $table->show() . html::p(null, $submit_button));
+        ), $table->show());
 
-        $out = html::div(array('class' => 'box'),
+        $out = html::div(array('class' => 'box hms'),
             html::div(array('id' => 'prefs-title', 'class' => 'boxtitle'), $this->gettext('changeautoreply'))
-            . html::div(array('class' => 'boxcontent'),
-                $form));
+            . html::div(array('class' => 'boxcontent'), $form)
+            . html::div(array('class' => 'footerleft formbuttons'), $submit_button));
 
         $this->rc->output->add_gui_object('autoreplyform', 'autoreply-form');
 

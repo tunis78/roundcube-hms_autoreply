@@ -34,6 +34,9 @@ See config.inc.php.dist file for more info.
 
 Changelog
 ---------
+Version 1.3 (2017-03-18)
+- Some CSS and design change
+
 Version 1.2 (2017-03-05)
 - Rearrange code
 - Fixed some typos
