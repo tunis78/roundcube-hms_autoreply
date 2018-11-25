@@ -9,6 +9,7 @@ $labels['enabled'] = 'Enabled';
 $labels['subject'] = 'Subject';
 $labels['message'] = 'Message';
 $labels['expires'] = 'Expires';
+$labels['expiresdate'] = 'Expire date';
 
 $messages = array();
 $messages['successfullyupdated'] = 'Autoreply has successfully update.';

@@ -3,7 +3,7 @@
     "type": "roundcube-plugin",
     "description": "hMailServer Autoreply Change for Roundcube. Plugin adds a possibility to change user autoreplay using two methods (drivers) via Settings/Autoreply tab.",
     "license": "GPLv3+",
-    "version": "1.3",
+    "version": "1.4",
     "homepage": "https://github.com/tunis78/roundcube-hms_autoreply",
     "authors": [
         {

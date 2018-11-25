@@ -8,6 +8,10 @@
     background-position: 7px -23px;
 }
 
+#autoreply-form input {
+    width: auto;
+}
+
 #autoreply-form textarea {
     resize: both;
     width: 99%;

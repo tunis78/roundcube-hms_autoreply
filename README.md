@@ -7,7 +7,6 @@ Requirements
 ------------
 - hMailServer with webserver and PHP >= 5.3.0
 - Requires PHP COM (Windows only)
-- jqueryui plugin
 
 How to install
 --------------
@@ -34,6 +33,10 @@ See config.inc.php.dist file for more info.
 
 Changelog
 ---------
+Version 1.4 (2018-11-04)
+- Added the new elastic skin
+- Some changes to get it work with new elastic skin
+
 Version 1.3 (2017-03-18)
 - Some CSS and design change
 

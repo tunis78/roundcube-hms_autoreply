@@ -7,6 +7,7 @@ $labels['enabled'] = 'Aktiv';
 $labels['subject'] = 'Ämne';
 $labels['message'] = 'Meddelande';
 $labels['expires'] = 'Förfaller';
+$labels['expiresdate'] = 'Förfallodatum';
 
 $messages['successfullyupdated'] = 'Autosvaret har uppdaterats.';
 $messages['internalerror'] = 'Fel uppstod i vald åtgärd.';

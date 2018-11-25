@@ -3,10 +3,10 @@
 /**
  * hMailServer Autoreply Plugin for Roundcube
  *
- * @version 1.3
+ * @version 1.4
  * @author Andreas Tunberg <andreas@tunberg.com>
  *
- * Copyright (C) 2017, Andreas Tunberg
+ * Copyright (C) 2018, Andreas Tunberg
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -172,22 +172,24 @@ class hms_autoreply extends rcube_plugin
                 'id'    => $field_id,
                 'value' => 1
         ));            
-        $field2_id = 'expiresdate';
+        $table->add('title', html::label($field_id, rcube::Q($this->gettext('expires'))));
+        $table->add(null, $input_expires->show($currentData['expires']));
+
+        $field_id = 'expiresdate';
         $input_expiresdate = new html_inputfield(array (
                 'name'      => '_expiresdate',
-                'id'        => $field2_id,
+                'id'        => $field_id,
                 'title'     => 'YYYY-MM-DD',
                 'size'      => 10,
                 'maxlength' => 10
         ));
-        $table->add('title', html::label($field_id, rcube::Q($this->gettext('expires'))));
-        $table->add(null, $input_expires->show($currentData['expires']) . ' ' . $input_expiresdate->show($currentData['expiresdate']));		
+        $table->add('title', html::label($field_id, rcube::Q($this->gettext('expiresdate'))));
+        $table->add(null, $input_expiresdate->show($currentData['expiresdate']));
 
         $submit_button = $this->rc->output->button(array(
                 'command' => 'plugin.autoreply-save',
-                'type'    => 'input',
-                'class'   => 'button mainaction',
-                'label'   => 'save'
+                'class'   => 'button mainaction submit',
+                'label'   => 'save',
         ));
 
         $form = $this->rc->output->form_tag(array(
@@ -198,9 +200,9 @@ class hms_autoreply extends rcube_plugin
             'action' => './?_task=settings&_action=plugin.autoreply-save',
         ), $table->show());
 
-        $out = html::div(array('class' => 'box hms'),
-            html::div(array('id' => 'prefs-title', 'class' => 'boxtitle'), $this->gettext('changeautoreply'))
-            . html::div(array('class' => 'boxcontent'), $form)
+        $out = html::div(array('id' => 'prefs-title', 'class' => 'boxtitle'), $this->gettext('changeautoreply'))
+            . html::div(array('class' => 'hms box formcontainer scroller'),
+                html::div(array('class' => 'boxcontent formcontent'), $form)
             . html::div(array('class' => 'footerleft formbuttons'), $submit_button));
 
         $this->rc->output->add_gui_object('autoreplyform', 'autoreply-form');
