@@ -5,7 +5,7 @@ methods (drivers) via Settings/Autoreply tab.
 
 Requirements
 ------------
-- hMailServer with webserver and PHP >= 5.3.0
+- hMailServer >= 5.7 with webserver and PHP >= 5.3.0
 - Requires PHP COM (Windows only)
 
 How to install
@@ -33,6 +33,9 @@ See config.inc.php.dist file for more info.
 
 Changelog
 ---------
+Version 1.5 (2026-10-28)
+- Updated to hMailServer 5.7
+
 Version 1.4 (2018-11-04)
 - Added the new elastic skin
 - Some changes to get it work with new elastic skin

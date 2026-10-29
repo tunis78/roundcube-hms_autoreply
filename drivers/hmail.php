@@ -3,10 +3,10 @@
 /**
  * hMailserver autoreply driver
  *
- * @version 1.2
+ * @version 1.3
  * @author Andreas Tunberg <andreas@tunberg.com>
  *
- * Copyright (C) 2017, Andreas Tunberg
+ * Copyright (C) 2026, Andreas Tunberg
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -79,15 +79,17 @@ class rcube_hmail_autoreply
                         'subject'     => $obAccount->VacationSubject,
                         'message'     => $obAccount->VacationMessage,
                         'expires'     => $obAccount->VacationMessageExpires ?: 0,
-                        'expiresdate' => substr($obAccount->VacationMessageExpiresDate, 0, 10)
-                    );              
+                        'expiresdate' => substr($obAccount->VacationMessageExpiresDate, 0, 10),
+                        'abortspam'   => $obAccount->VacationMessageAbortSpamFlagged ?: 0
+                    );
                     return $adata;
                 case 'autoreply_save':
-                    $obAccount->VacationMessageIsOn        = $data['enabled'] == null ? 0 : 1;
-                    $obAccount->VacationSubject            = $data['subject'];
-                    $obAccount->VacationMessage            = $data['message'];
-                    $obAccount->VacationMessageExpires     = $data['expires'] == null ? 0 : 1;
-                    $obAccount->VacationMessageExpiresDate = $data['expiresdate'];
+                    $obAccount->VacationMessageIsOn             = $data['enabled'] == null ? 0 : 1;
+                    $obAccount->VacationSubject                 = $data['subject'];
+                    $obAccount->VacationMessage                 = $data['message'];
+                    $obAccount->VacationMessageExpires          = $data['expires'] == null ? 0 : 1;
+                    $obAccount->VacationMessageExpiresDate      = $data['expiresdate'];
+                    $obAccount->VacationMessageAbortSpamFlagged = $data['abortspam'] == null ? 0 : 1;
                     $obAccount->Save();
                     return HMS_SUCCESS;
             }

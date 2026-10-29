@@ -10,6 +10,7 @@ $labels['subject'] = 'Subject';
 $labels['message'] = 'Message';
 $labels['expires'] = 'Expires';
 $labels['expiresdate'] = 'Expire date';
+$labels['abortspam'] = 'Abort on messages marked as spam';
 
 $messages = array();
 $messages['successfullyupdated'] = 'Autoreply has successfully update.';

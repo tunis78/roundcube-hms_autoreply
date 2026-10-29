@@ -8,6 +8,7 @@ $labels['subject'] = 'Ämne';
 $labels['message'] = 'Meddelande';
 $labels['expires'] = 'Förfaller';
 $labels['expiresdate'] = 'Förfallodatum';
+$labels['abortspam'] = 'Avbryt vid meddelanden markerade som skräppost';
 
 $messages['successfullyupdated'] = 'Autosvaret har uppdaterats.';
 $messages['internalerror'] = 'Fel uppstod i vald åtgärd.';

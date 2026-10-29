@@ -3,10 +3,10 @@
 /**
  * hMailServer Autoreply Plugin for Roundcube
  *
- * @version 1.4
+ * @version 1.5
  * @author Andreas Tunberg <andreas@tunberg.com>
  *
- * Copyright (C) 2018, Andreas Tunberg
+ * Copyright (C) 2026, Andreas Tunberg
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -100,7 +100,8 @@ class hms_autoreply extends rcube_plugin
             'subject'     => rcube_utils::get_input_value('_subject', rcube_utils::INPUT_POST),
             'message'     => rcube_utils::get_input_value('_message', rcube_utils::INPUT_POST, true),
             'expires'     => rcube_utils::get_input_value('_expires', rcube_utils::INPUT_POST),
-            'expiresdate' => rcube_utils::get_input_value('_expiresdate', rcube_utils::INPUT_POST)
+            'expiresdate' => rcube_utils::get_input_value('_expiresdate', rcube_utils::INPUT_POST),
+            'abortspam'   => rcube_utils::get_input_value('_abortspam', rcube_utils::INPUT_POST)
         );
 
         if (!($result = $this->_save($dataToSave))) {
@@ -185,6 +186,15 @@ class hms_autoreply extends rcube_plugin
         ));
         $table->add('title', html::label($field_id, rcube::Q($this->gettext('expiresdate'))));
         $table->add(null, $input_expiresdate->show($currentData['expiresdate']));
+
+        $field_id = 'abortspam';
+        $input_abortspam = new html_checkbox(array (
+                'name'  => '_abortspam',
+                'id'    => $field_id,
+                'value' => 1
+        )); 
+        $table->add('title', html::label($field_id, rcube::Q($this->gettext('abortspam'))));
+        $table->add(null, $input_abortspam->show($currentData['abortspam']));
 
         $submit_button = $this->rc->output->button(array(
                 'command' => 'plugin.autoreply-save',

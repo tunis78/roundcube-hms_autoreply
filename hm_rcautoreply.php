@@ -3,10 +3,10 @@
 /**
  * hMailserver remote autoreply changer
  *
- * @version 1.2
+ * @version 1.3
  * @author Andreas Tunberg <andreas@tunberg.com>
  *
- * Copyright (C) 2017, Andreas Tunberg
+ * Copyright (C) 2026, Andreas Tunberg
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -61,15 +61,17 @@ try {
 				'subject'     => $obAccount->VacationSubject,
 				'message'     => $obAccount->VacationMessage,
 				'expires'     => $obAccount->VacationMessageExpires,
-				'expiresdate' => substr($obAccount->VacationMessageExpiresDate, 0, 10)
+				'expiresdate' => substr($obAccount->VacationMessageExpiresDate, 0, 10),
+				'abortspam'   => $obAccount->VacationMessageAbortSpamFlagged ?: 0
 			);
 			sendResult($adata);
 		case 'autoreply_save':
-			$obAccount->VacationMessageIsOn        = isset($_POST['enabled']) ?: 0;
-			$obAccount->VacationSubject            = $_POST['subject'];
-			$obAccount->VacationMessage            = $_POST['message'];
-			$obAccount->VacationMessageExpires     = isset($_POST['expires']) ?: 0;
-			$obAccount->VacationMessageExpiresDate = $_POST['expiresdate'];
+			$obAccount->VacationMessageIsOn             = isset($_POST['enabled']) ?: 0;
+			$obAccount->VacationSubject                 = $_POST['subject'];
+			$obAccount->VacationMessage                 = $_POST['message'];
+			$obAccount->VacationMessageExpires          = isset($_POST['expires']) ?: 0;
+			$obAccount->VacationMessageExpiresDate      = $_POST['expiresdate'];
+			$obAccount->VacationMessageAbortSpamFlagged = isset($_POST['abortspam']) ?: 0;
 			$obAccount->Save();
 			sendResult(HMS_SUCCESS);
 	}
