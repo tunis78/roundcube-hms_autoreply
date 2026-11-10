@@ -3,7 +3,7 @@
 /**
  * hMailServer Autoreply Plugin for Roundcube
  *
- * @version 1.5
+ * @version 1.6
  * @author Andreas Tunberg <andreas@tunberg.com>
  *
  * Copyright (C) 2026, Andreas Tunberg
