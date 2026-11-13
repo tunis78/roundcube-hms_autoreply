@@ -3,7 +3,7 @@
 /**
  * hMailserver autoreply driver
  *
- * @version 1.4
+ * @version 1.5
  * @author Andreas Tunberg <andreas@tunberg.com>
  *
  * Copyright (C) 2026, Andreas Tunberg
@@ -53,11 +53,7 @@ class rcube_hmail_autoreply
         }
 
         $username = $rcmail->user->data['username'];
-        if (strstr($username, '@')){
-            $temparr = explode('@', $username);
-            $domain = $temparr[1];
-        }
-        else {
+        if (!strstr($username, '@')){
             $domain = $rcmail->config->get('username_domain', false);
             if (!$domain) {
                 rcube::write_log('errors', 'Plugin hms_autoreply (hmail driver): $config[\'username_domain\'] is not defined.');
@@ -68,23 +64,8 @@ class rcube_hmail_autoreply
 
         $password = $rcmail->decrypt($_SESSION['password']);
 
-        $obDomain = $obApp->Authenticate($username, $password);
-        $obDomainName = null;
         try {
-            $obDomainName = $obApp->Domains->ItemByName($domain)->Name;
-        } catch (Exception $e) {
-            $obDomainName = $obApp->Domains->ItemByDBID($obDomain->DomainID)->Name;
-            $temparr = explode('@', $username);
-            $username = $temparr[0] . '@' . $obDomainName;
-        }
-        
-        if (!$obDomainName) {
-            rcube::write_log('errors', 'Plugin hms_autoreply (hmail driver): No domain or alias found.');
-            return HMS_ERROR;
-        }
-
-        try {
-            $obAccount = $obApp->Domains->ItemByName($obDomainName)->Accounts->ItemByAddress($username);
+            $obAccount = $obApp->Authenticate($username, $password);
 
             switch($data['action']){
                 case 'autoreply_load':

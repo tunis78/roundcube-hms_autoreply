@@ -33,8 +33,11 @@ See config.inc.php.dist file for more info.
 
 Changelog
 ---------
+Version 1.7 (2026-11-13)
+- Cleaned the drivers code
+
 Version 1.6 (2026-11-10)
-- Fix to work with domainalias.
+- Fix to work with domainalias
 
 Version 1.5 (2026-10-28)
 - Updated to hMailServer 5.7

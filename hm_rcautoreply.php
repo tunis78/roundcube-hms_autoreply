@@ -3,7 +3,7 @@
 /**
  * hMailserver remote autoreply changer
  *
- * @version 1.4
+ * @version 1.5
  * @author Andreas Tunberg <andreas@tunberg.com>
  *
  * Copyright (C) 2026, Andreas Tunberg
@@ -48,24 +48,9 @@ try {
 catch (Exception $e) {
 	sendResult(trim(strip_tags($e->getMessage())), HMS_ERROR);
 }
-$temparr = explode('@', $email);
-$username = $temparr[0];
-$domain = $temparr[1];
-
-$obDomain = $obApp->Authenticate($email, $password);
-$obDomainName = null;
-try {
-	$obDomainName = $obApp->Domains->ItemByName($domain)->Name;
-} catch (Exception $e) {
-	$obDomainName = $obApp->Domains->ItemByDBID($obDomain->DomainID)->Name;
-	$email = $username . '@' . $obDomainName;
-}
-
-if (!$obDomainName)
-	sendResult('No domain or alias found.', HMS_ERROR);
 
 try {
-	$obAccount = $obApp->Domains->ItemByName($obDomainName)->Accounts->ItemByAddress($email);
+	$obAccount = $obApp->Authenticate($email, $password);
 
 	switch($action){
 		case 'autoreply_load':
