@@ -3,7 +3,7 @@
 /**
  * hMailserver remote autoreply driver
  *
- * @version 1.3
+ * @version 1.4
  * @author Andreas Tunberg <andreas@tunberg.com>
  *
  * Copyright (C) 2026, Andreas Tunberg
@@ -98,7 +98,7 @@ class rcube_hmail_remote_autoreply
         else
             $return = 'Curl error: ' . curl_error($ch);
 
-        curl_close($ch);
+        unset($ch);
         return $return;
     }
 }

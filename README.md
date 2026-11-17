@@ -33,6 +33,10 @@ See config.inc.php.dist file for more info.
 
 Changelog
 ---------
+Version 1.8 (2026-11-17)
+- Some constants already defined if use more that one hms plugin, this will be an error in PHP 9
+- Fix funtion deprecated since php 8.5
+
 Version 1.7 (2026-11-13)
 - Cleaned the drivers code
 

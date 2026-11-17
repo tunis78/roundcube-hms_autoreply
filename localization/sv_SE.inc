@@ -14,6 +14,6 @@ $messages['successfullyupdated'] = 'Autosvaret har uppdaterats.';
 $messages['internalerror'] = 'Fel uppstod i vald åtgärd.';
 //$messages['connecterror'] = $messages['internalerror'] . ' Uppkopplingsfel.';
 $messages['loaderror'] = 'Kunde inte ladda autosvar.';
-$messages['loadconnecterror'] = $messages['loadinternalerror'] . ' Uppkopplingsfel.';
+$messages['loadconnecterror'] = $messages['loaderror'] . ' Uppkopplingsfel.';
 $messages['updateerror'] = 'Kunde inte uppdatera autosvar.';
 $messages['updateconnecterror'] = $messages['updateerror'] . ' Connection error.';
